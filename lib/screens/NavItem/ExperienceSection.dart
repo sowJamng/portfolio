@@ -26,41 +26,16 @@ class ExperienceSection extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        experience.title,
-                        style: const TextStyle(
-                            color: Colors.green,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        experience.dateRange,
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 117, 117, 117),
-                        ),
-                      ),
-                      Text(
-                        experience.company,
-                        style: const TextStyle(
-                          color: Colors.purple,
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        experience.techno,
-                        style: const TextStyle(
-                          color: Colors.greenAccent,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        experience.description,
-                        style: const TextStyle(
-                            color: Colors.white70, fontSize: 16),
-                      ),
+                      textWidget(experience.title, Colors.green, 18, FontWeight.bold),
+                      textWidget(experience.dateRange,const Color.fromARGB(255, 117, 117, 117), 12,FontWeight.normal),
+                       textWidget(
+                          experience.company,
+                          const Color.fromARGB(255, 117, 117, 117),
+                          12,
+                          FontWeight.bold),
+                      textWidget(experience.techno,Colors.purple, 16,
+                          FontWeight.bold),
+                      textWidget(experience.description, Colors.white70, 16,FontWeight.normal),
                     ],
                   ),
                 ),
@@ -68,5 +43,13 @@ class ExperienceSection extends StatelessWidget {
             },
           )
         ]);
+  }
+
+  Widget textWidget(String value, Color color, double fontSize, FontWeight fontWeight) {
+    return Text(
+      value,
+      style: TextStyle(
+          color: color, fontSize: fontSize, fontWeight: fontWeight),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:portfolio/core/enums/NavigationItemEnum.dart';
@@ -33,69 +34,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Port',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Text(
-                      'folio',
-                      style: TextStyle(
-                        color: Colors.pinkAccent,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    addTextWidget('Port', Colors.white, 24),
+                    addTextWidget('folio', Colors.pinkAccent, 24),
                     const Spacer(),
-                    Flexible(
-                      child: NavigationItem(
-                          title: NavigationItemEnum.Accueil.label,
-                          isActive: _selectedItem == NavigationItemEnum.Accueil,
-                          onTap: () =>
-                              setActiveItem(NavigationItemEnum.Accueil)),
-                    ),
-                    Flexible(
-                        child: NavigationItem(
-                            title: NavigationItemEnum.Experiences.label,
-                            isActive:
-                                _selectedItem == NavigationItemEnum.Experiences,
-                            onTap: () =>
-                                setActiveItem(NavigationItemEnum.Experiences))),
-                    Flexible(
-                        child: NavigationItem(
-                            title: NavigationItemEnum.Contact.label,
-                            isActive:
-                                _selectedItem == NavigationItemEnum.Contact,
-                            onTap: () =>
-                                setActiveItem(NavigationItemEnum.Contact))),
-                    Flexible(
-                        child: NavigationItem(
-                            title: NavigationItemEnum.A_Propos.label,
-                            isActive:
-                                _selectedItem == NavigationItemEnum.A_Propos,
-                            onTap: () =>
-                                setActiveItem(NavigationItemEnum.A_Propos)))
+                    addItemNavHeader(NavigationItemEnum.Accueil),
+                    addItemNavHeader(NavigationItemEnum.Experiences),
+                    addItemNavHeader(NavigationItemEnum.Contact),
+                    addItemNavHeader(NavigationItemEnum.A_Propos),
                   ],
                 )),
             if (_selectedItem == NavigationItemEnum.Experiences)
-              Align(
-                alignment: Alignment.topCenter,
-                child: CircleAvatar(
-                  radius: screenWidth < 600 ? 100 : 150,
-                  backgroundImage: const AssetImage('images/profil.png'),
-                ),
-              ),
-            Text(
-              'Développeur ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: screenWidth < 600.0 ? 30 : 40,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+              addProfilImage(screenWidth),
+            addTextWidget(
+                'Développeur', Colors.white, screenWidth < 600.0 ? 30 : 40),
             RichText(
               text: TextSpan(
                 text: 'Flutter & Java & Angular',
@@ -128,37 +79,55 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 20),
                       buildContentByItem(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () => _downloadAndSavePDF(),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          side: const BorderSide(color: Colors.pinkAccent),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 15),
-                        ),
-                        child: const Text(
-                          'Télécharge mon CV',
-                          style:
-                              TextStyle(color: Colors.pinkAccent, fontSize: 18),
-                        ),
-                      ),
+                          onPressed: () => _downloadAndSavePDF(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            side: const BorderSide(color: Colors.pinkAccent),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 15),
+                          ),
+                          child: addTextWidget(
+                              'Télécharge mon CV', Colors.pinkAccent, 18)),
                     ],
                   ),
                 )),
                 if (_selectedItem != NavigationItemEnum.Experiences)
-                  Expanded(
-                    child: Center(
-                      child: CircleAvatar(
-                        radius: screenWidth < 600 ? 100 : 150,
-                        backgroundImage: const AssetImage('images/profil.png'),
-                      ),
-                    ),
-                  ),
+                  Expanded(child: addProfilImage(screenWidth)),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget addItemNavHeader(NavigationItemEnum navigationItemEnum) {
+    return Flexible(
+      child: NavigationItem(
+          title: navigationItemEnum.label,
+          isActive: _selectedItem == navigationItemEnum,
+          onTap: () => setActiveItem(navigationItemEnum)),
+    );
+  }
+
+  addTextWidget(String value, Color color, double fontSize) {
+    return Text(
+      value,
+      style: TextStyle(
+        color: color,
+        fontSize: fontSize,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  addProfilImage(double screenWidth) {
+    return Center(
+      child: CircleAvatar(
+        radius: screenWidth < 600 ? 100 : 150,
+        backgroundImage: const AssetImage('images/profil.png'),
       ),
     );
   }

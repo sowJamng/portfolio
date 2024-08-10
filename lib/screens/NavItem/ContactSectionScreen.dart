@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/core/widget/RowInfoWidget.dart';
 import 'package:portfolio/model/Contact.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,67 +17,37 @@ class ContactSection extends StatelessWidget {
           style: const TextStyle(
               color: Colors.white70, fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 25),
-        Row(
-          children: [
-            const Icon(Icons.phone, color: Colors.white70),
-            const SizedBox(width: 29),
-            Text(
-              contact.telephone,
-              style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
+        const SizedBox(
+          height: 20,
         ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            const Icon(Icons.email, color: Colors.white70),
-            const SizedBox(width: 30),
-            Text(
-              contact.email,
-              style: const TextStyle(color: Colors.white70, fontSize: 16),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            const Icon(Icons.location_city, color: Colors.white70),
-            const SizedBox(width: 30),
-            Text(
-              contact.adresse,
-              style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.code_outlined, color: Colors.white70),
-              onPressed: () => _launchURL(contact.githubLink),
-              tooltip: 'GitHub',
-            ),
-            const SizedBox(width: 20),
-            IconButton(
-              icon: const Icon(Icons.link, color: Colors.white70),
-              onPressed: () => _launchURL(contact.linkedinLink),
-              tooltip: 'LinkedIn',
-            ),
-          ],
-        ),
+        RowInfoWidget(value: contact.telephone, icon: Icons.phone, isIconButton: false),
+        RowInfoWidget(value: contact.email, icon: Icons.email, isIconButton: false),
+        RowInfoWidget(value: contact.adresse, icon: Icons.location_city,isIconButton: false),
+        RowInfoWidget(
+            value: 'GitHub',
+            link: contact.githubLink,
+            icon: Icons.code_outlined,
+            isIconButton: true,
+            onPressed: (String? url) {
+              if (url != null) {
+                _launchURL(url);
+              }
+            }),
+        RowInfoWidget(
+            value: 'LinkedIn',
+            link: contact.linkedinLink,
+            icon: Icons.link,
+            isIconButton: true,
+            onPressed: (String? url) {
+              if (url != null) {
+                _launchURL(url);
+              }
+            }),
       ],
     );
   }
 
-  void _launchURL(String url) async {
+  dynamic _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
 
     if (await canLaunchUrl(uri)) {

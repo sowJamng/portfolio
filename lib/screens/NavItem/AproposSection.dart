@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/core/widget/RowInfoWidget.dart';
 
 class AproposSection extends StatelessWidget {
   const AproposSection({super.key});
@@ -8,44 +9,9 @@ class AproposSection extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(Icons.event_available_outlined, color: Colors.white70),
-            SizedBox(width: 29),
-            Text(
-              'Disponibilité : ',
-              style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          children: [
-            Icon(Icons.money, color: Colors.white70),
-            SizedBox(width: 30),
-            Text(
-              'TJM : XXX £',
-              style: TextStyle(color: Colors.white70, fontSize: 16),
-            ),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          children: [
-            Icon(Icons.approval_outlined, color: Colors.white70),
-            SizedBox(width: 30),
-            Text(
-              'Île-de-France',
-              style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+        RowInfoWidget(value: 'Disponibilité : ', icon: Icons.event_available_outlined, isIconButton: false),
+        RowInfoWidget(value:  'TJM : XXX £',icon: Icons.money, isIconButton: false),
+        RowInfoWidget(value: 'Île-de-France', icon: Icons.approval_outlined, isIconButton: false),
       ],
     );
   }
